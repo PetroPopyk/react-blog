@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from '../auth/Auth.module.css';
 
 export class AddArticle extends Component {
   state = {
@@ -19,7 +20,7 @@ export class AddArticle extends Component {
 
   render() {
     return (
-        <div className="container">
+        <div className={`container ${styles.form}`}>
           <form onSubmit={this.handleSubmit} className="white">
             <h5 className="grey-text">Post new article</h5>
             <div className="input-field">

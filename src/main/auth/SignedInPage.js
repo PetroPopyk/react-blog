@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from './Auth.module.css';
 
 export class SignedInPage extends Component {
   state = {
@@ -19,7 +20,7 @@ export class SignedInPage extends Component {
 
   render() {
     return (
-        <div className="container">
+        <div className={`container ${styles.form}`}>
           <form onSubmit={this.handleSubmit} className="white">
             <h5 className="grey-text">Sign In</h5>
             <div className="input-field">
