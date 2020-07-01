@@ -1,12 +1,14 @@
 import React from 'react';
 import Summary from './Summary';
 
-const ArticlesList = () => {
+const ArticlesList = ({articles}) => {
   return (
       <div className="articles-list section">
-        <Summary/>
-        <Summary/>
-        <Summary/>
+        { articles && articles.map(article => {
+          return (
+              <Summary article={article} key={article.id}/>
+          )
+        })}
       </div>
   );
 };

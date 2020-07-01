@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from '../auth/Auth.module.css';
+import { addArticle } from '../../store/actions/articleActions';
 
 export class AddArticle extends Component {
   state = {
@@ -8,14 +10,12 @@ export class AddArticle extends Component {
   };
 
   handleChange = (e) => {
-    this.setState({
-                    [e.target.id]: e.target.value
-                  });
+    this.setState({[e.target.id]: e.target.value});
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
+    this.props.addArticle(this.state);
   };
 
   render() {
@@ -29,7 +29,7 @@ export class AddArticle extends Component {
             </div>
             <div className="input-field">
               <label htmlFor="description">Description</label>
-              <textarea className='materialize-textarea' id="description" onChange={this.handleChange}/>
+              <textarea className="materialize-textarea" id="description" onChange={this.handleChange}/>
             </div>
             <div className="input-field">
               <button className="btn pink">Post</button>
@@ -40,4 +40,12 @@ export class AddArticle extends Component {
   }
 }
 
-export default AddArticle;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addArticle: (article) => {
+      dispatch(addArticle(article));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddArticle);
