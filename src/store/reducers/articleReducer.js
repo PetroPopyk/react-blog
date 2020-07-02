@@ -9,10 +9,13 @@ const initState = {
 const articleReducer = (state = initState, action) => {
   switch (action.type) {
     default:
-      break;
+      return state;
     case 'ADD_ARTICLE':
       console.log(action.article);
-      break;
+      return state;
+    case 'ADD_ARTICLE_ERROR':
+      console.log(action.e);
+      return state;
   }
   return state;
 };

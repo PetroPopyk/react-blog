@@ -1,5 +1,10 @@
 export const addArticle = (article) => {
-  return (dispatch, getState) => {
-    dispatch({type: 'ADD_ARTICLE', article});
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection('articles').add({...article, authorFirstName: 'Petro', authorLastName: 'Popyk', authorId: 0, createdAt: new Date()}).then(() => {
+      dispatch({type: 'ADD_ARTICLE', article});
+    }).catch(e => {
+      dispatch({type: 'ADD_ARTICLE_ERROR', e});
+    });
   };
 };
