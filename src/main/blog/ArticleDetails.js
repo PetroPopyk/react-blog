@@ -1,21 +1,39 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
-const ArticleDetails = (props) => {
-  const id = props.match.params.id;
-  return (
-      <div className="container section">
-        <div className="card z-depth-0">
-          <div className="card-content">
-            <span className="card-title">Title {id}</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquid assumenda doloribus ex explicabo illum laudantium
-               nesciunt totam! Accusamus debitis deleniti dolorem ea itaque possimus, repellendus sequi similique soluta totam!</p>
-          </div>
-          <div className="card-action grey-text">
-            <div>Date</div>
+const ArticleDetails = ({article}) => {
+  if (article) {
+    return (
+        <div className="container section">
+          <div className="card z-depth-0">
+            <div className="card-content">
+              <span className="card-title">{article.title}</span>
+              <p>{article.description}</p>
+            </div>
+            <div className="card-action grey-text">
+              <div>Date</div>
+              <div>Author: {article.authorFirstName} {article.authorLastName}</div>
+            </div>
           </div>
         </div>
-      </div>
-  );
+    );
+  } else {
+    return (
+        <div className="container center-align">
+          <h6>Post not found</h6>
+        </div>
+    );
+  }
 };
 
-export default ArticleDetails;
+const mapStateToProps = (state) => {
+  return {
+    article: state.firestore.data['article']
+  };
+};
+
+export default compose(connect(mapStateToProps),
+                       firestoreConnect(props => [{collection: 'articles', doc: props.match.params.id, storeAs: 'article'}]))(
+    ArticleDetails);

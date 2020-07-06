@@ -17,3 +17,7 @@ textarea.materialize-textarea:focus:not([readonly]){
 form {
   width: 100%;
 }
+
+p, span {
+  color: rgba(0,0,0,0.87)!important;
+}
