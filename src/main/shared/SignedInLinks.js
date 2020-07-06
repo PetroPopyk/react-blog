@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const SignedIn = () => {
+const SignedInLinks = () => {
   return (
       <ul className="right">
         <li><NavLink to={'/add-article'}>New Article</NavLink></li>
@@ -11,4 +11,4 @@ const SignedIn = () => {
   );
 };
 
-export default SignedIn;
+export default SignedInLinks;

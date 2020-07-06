@@ -14,7 +14,7 @@ const articleReducer = (state = initState, action) => {
       console.log(action.article);
       return state;
     case 'ADD_ARTICLE_ERROR':
-      console.log(action.e);
+      console.log(action.error);
       return state;
   }
   return state;

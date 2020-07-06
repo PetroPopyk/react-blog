@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import styles from './Auth.module.css';
+import { connect } from 'react-redux';
+import { signIn } from '../../store/actions/authActions';
 
-export class SignedInPage extends Component {
+export class SignInPage extends Component {
   state = {
     email: '',
     password: ''
@@ -15,10 +17,11 @@ export class SignedInPage extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
+    this.props.signIn(this.state);
   };
 
   render() {
+    const { authError } = this.props;
     return (
         <div className={`container ${styles.form}`}>
           <form onSubmit={this.handleSubmit} className="white">
@@ -33,6 +36,9 @@ export class SignedInPage extends Component {
             </div>
             <div className="input-field">
               <button className="btn pink">Login</button>
+              <div className="right">
+                { authError ? <p className='red-text'>{authError}</p> : null }
+              </div>
             </div>
           </form>
         </div>
@@ -40,4 +46,16 @@ export class SignedInPage extends Component {
   }
 }
 
-export default SignedInPage;
+const mapStateToProps = (state) => {
+  return {
+    authError: state.auth.authError
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (credentials) => dispatch(signIn(credentials))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);
