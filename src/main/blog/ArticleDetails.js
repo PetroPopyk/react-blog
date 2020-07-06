@@ -19,10 +19,16 @@ const ArticleDetails = ({article}) => {
           </div>
         </div>
     );
-  } else {
+  } else if (article === undefined) {
     return (
         <div className="container center-align">
-          <h6>Post not found</h6>
+          <h6>Loading...</h6>
+        </div>
+    );
+  } else if (article === null) {
+    return (
+        <div className="container center-align">
+          <h6>Article not found</h6>
         </div>
     );
   }

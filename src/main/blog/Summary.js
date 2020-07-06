@@ -6,8 +6,6 @@ const Summary = ({article}) => {
         <div className="card-content">
           <span className='card-title'>{article.title}</span>
           <p>{article.description}</p>
-          <span className='grey-text'>Posted at:</span>
-          <br/>
           <span className='grey-text'>Author: {article.authorFirstName} {article.authorLastName}</span>
         </div>
       </div>

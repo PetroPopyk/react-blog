@@ -35,7 +35,7 @@ export class SignInPage extends Component {
               <input type="password" id="password" onChange={this.handleChange}/>
             </div>
             <div className="input-field">
-              <button className="btn pink">Login</button>
+              <button className="btn pink">Sign In</button>
               <div className="right">
                 { authError ? <p className='red-text'>{authError}</p> : null }
               </div>
