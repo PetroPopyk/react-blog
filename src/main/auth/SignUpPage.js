@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import styles from './Auth.module.css';
+import { connect } from 'react-redux';
+import { signUp } from '../../store/actions/authActions';
 
 export class SignUpPage extends Component {
   state = {
@@ -10,17 +12,16 @@ export class SignUpPage extends Component {
   };
 
   handleChange = (e) => {
-    this.setState({
-                    [e.target.id]: e.target.value
-                  });
+    this.setState({[e.target.id]: e.target.value});
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
+    this.props.signUp(this.state);
   };
 
   render() {
+    const { authError } = this.props;
     return (
         <div className={`container ${styles.form}`}>
           <form onSubmit={this.handleSubmit} className="white">
@@ -43,6 +44,9 @@ export class SignUpPage extends Component {
             </div>
             <div className="input-field">
               <button className="btn pink">Sign Up</button>
+              <div className="right">
+                { authError ? <p className='red-text'>{authError}</p> : null }
+              </div>
             </div>
           </form>
         </div>
@@ -50,4 +54,18 @@ export class SignUpPage extends Component {
   }
 }
 
-export default SignUpPage;
+const mapStateToProps = (state) => {
+  return {
+    authError: state.auth.authError
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signUp: (user) => {
+      dispatch(signUp(user));
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);

@@ -14,23 +14,35 @@ import firebase from 'firebase/app';
 import { useSelector } from 'react-redux';
 import { isLoaded } from 'react-redux-firebase';
 
-const store    = createStore(rootReducer, compose(applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
-                                                  reduxFirestore(firebase, firebaseConfig)));
+const store = createStore(rootReducer, compose(applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
+                          reduxFirestore(firebase, firebaseConfig)));
+
+const usersProps = {
+  userProfile: 'users',
+  useFirestoreForProfile: true,
+  enableRedirectHandling: false,
+  resetBeforeLogin: false
+};
+
 const rrfProps = {
   firebase,
-  config: firebaseConfig,
+  config: {
+    ...firebaseConfig,
+    ...usersProps
+  },
   dispatch: store.dispatch,
   createFirestoreInstance
 };
 
 function IsAuthLoaded({children}) {
   const auth = useSelector(state => state.firebase.auth);
-  if (!isLoaded(auth)) {
+  const profile = useSelector(state => state.firebase.profile);
+  if (!isLoaded(auth) || !isLoaded(profile)) {
     return null;
   } else {
     return children;
   }
-};
+}
 
 ReactDOM.render(
     <React.StrictMode>

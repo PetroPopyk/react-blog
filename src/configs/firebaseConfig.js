@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 
 // Your web app's Firebase configuration
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyDLFv1WWz9ZKe1at2wg3E5sImQ7Zc2jTxw",
   authDomain: "react-blog-7b2ad.firebaseapp.com",
   databaseURL: "https://react-blog-7b2ad.firebaseio.com",
@@ -14,5 +14,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
+export { db };
 export default firebase;

@@ -9,14 +9,14 @@ import ArticleDetails from './main/blog/ArticleDetails';
 import { connect } from 'react-redux';
 
 const App = (props) => {
-  const { auth } = props;
+  const { auth, profile } = props;
 
-const AuthorizedRoute = (props) => {
-  return auth.uid ? (<Route path={props.path} component={props.component}/>) : <Redirect to={'/'}/>
-};
+  const AdminRoute = (props) => {
+    return (auth.uid && profile.isAdmin)  ? (<Route path={props.path} component={props.component}/>) : <Redirect to={'/'}/>;
+  };
 
   const UnauthorizedRoute = (props) => {
-    return !auth.uid ? (<Route path={props.path} component={props.component}/>) : <Redirect to={'/'}/>
+    return !auth.uid ? (<Route path={props.path} component={props.component}/>) : <Redirect to={'/'}/>;
   };
 
   return (
@@ -28,7 +28,7 @@ const AuthorizedRoute = (props) => {
             <Route path={'/article/:id'} component={ArticleDetails}/>
             <UnauthorizedRoute path={'/sign-in'} component={SignedInPage}/>
             <UnauthorizedRoute path={'/sign-up'} component={SignUpPage}/>
-            <AuthorizedRoute path={'/add-article'} component={AddArticle}/>
+            <AdminRoute path={'/add-article'} component={AddArticle}/>
           </Switch>
         </div>
       </BrowserRouter>
@@ -37,7 +37,8 @@ const AuthorizedRoute = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 

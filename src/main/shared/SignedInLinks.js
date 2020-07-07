@@ -4,13 +4,21 @@ import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/authActions';
 
 const SignedInLinks = (props) => {
+  const { auth, profile } = props;
   return (
       <ul className="right">
-        <li><NavLink to={'/add-article'}>New Article</NavLink></li>
+        { (auth.uid && profile.isAdmin) ? <li><NavLink to={'/add-article'}>New Article</NavLink></li> : null }
         <li><a onClick={props.signOut}>Log Out</a></li>
         <li><NavLink to={'/'} className="btn btn-floating pink">PP</NavLink></li>
       </ul>
   );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -19,4 +27,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SignedInLinks);
+export default connect(mapStateToProps, mapDispatchToProps)(SignedInLinks);
