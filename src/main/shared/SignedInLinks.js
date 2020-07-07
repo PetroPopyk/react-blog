@@ -9,7 +9,7 @@ const SignedInLinks = (props) => {
       <ul className="right">
         { (auth.uid && profile.isAdmin) ? <li><NavLink to={'/add-article'}>New Article</NavLink></li> : null }
         <li><a onClick={props.signOut}>Log Out</a></li>
-        <li><NavLink to={'/'} className="btn btn-floating pink">PP</NavLink></li>
+        <li><NavLink to={'/'} className="btn btn-floating pink">{`${profile.firstName[0]}${profile.lastName[0]}`}</NavLink></li>
       </ul>
   );
 };

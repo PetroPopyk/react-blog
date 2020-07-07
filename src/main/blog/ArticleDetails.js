@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
 
-const ArticleDetails = ({article}) => {
-  if (article) {
+const ArticleDetails = (props) => {
+  if (props.location.state) {
+    const { article } = props.location.state;
     return (
         <div className="container section">
           <div className="card z-depth-0">
@@ -14,18 +12,11 @@ const ArticleDetails = ({article}) => {
             </div>
             <div className="card-action grey-text">
               <div>Date</div>
-              <div>Author: {article.authorFirstName} {article.authorLastName}</div>
             </div>
           </div>
         </div>
     );
-  } else if (article === undefined) {
-    return (
-        <div className="container center-align">
-          <h6>Loading...</h6>
-        </div>
-    );
-  } else if (article === null) {
+  } else {
     return (
         <div className="container center-align">
           <h6>Article not found</h6>
@@ -34,12 +25,5 @@ const ArticleDetails = ({article}) => {
   }
 };
 
-const mapStateToProps = (state) => {
-  return {
-    article: state.firestore.data['article']
-  };
-};
 
-export default compose(connect(mapStateToProps),
-                       firestoreConnect(props => [{collection: 'articles', doc: props.match.params.id, storeAs: 'article'}]))(
-    ArticleDetails);
+export default ArticleDetails;

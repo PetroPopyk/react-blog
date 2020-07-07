@@ -16,6 +16,7 @@ export class AddArticle extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.addArticle(this.state);
+    this.props.history.push('/');
   };
 
   render() {
