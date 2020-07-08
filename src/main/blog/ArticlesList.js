@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Summary from './Summary';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
 
-const ArticlesList = ({articles}) => {
-  return (
-      <div className="articles-list section">
-        {articles && articles.map(article => {
-          return (
-              <Link to={{ pathname: `/article/${article.id}`, state: { article: article }}} key={ article.id }>
-                <Summary article={article}/>
-              </Link>
-          );
-        })}
-      </div>
-  );
+export class ArticlesList extends Component {
+  state = {
+    search: ''
+  };
+
+  searchArticles = (e) => {
+    this.setState({search: e.target.value});
+  };
+
+  render() {
+    const { articles, profile } = this.props;
+    return (
+        <div className="articles-list section">
+          {profile.isAdmin ? <div className="input-field">
+            <input placeholder="Search articles..."
+                   type="text"
+                   width={'300'}
+                   className="validate"
+                   onChange={this.searchArticles}/>
+          </div>: null}
+          {articles && articles.filter(article => article.title.toLowerCase().includes(this.state.search) || article.description.toLowerCase().includes(this.state.search)).map(article => {
+            return (
+                <Link to={{pathname: `/article/${article.id}`, state: {article: article}}} key={article.id}>
+                  <Summary article={article}/>
+                </Link>
+            );
+          })}
+        </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    profile: state.firebase.profile,
+  }
 };
 
-export default ArticlesList;
+export default connect(mapStateToProps)(ArticlesList);

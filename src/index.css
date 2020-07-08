@@ -14,6 +14,11 @@ textarea.materialize-textarea:focus:not([readonly]){
   box-shadow: none;
 }
 
+input.valid[type=text]:not(.browser-default) {
+  border-bottom: 1px solid #ee6d73;
+  box-shadow: 0 1px 0 0 #ee6d73;
+}
+
 form {
   width: 100%;
 }
