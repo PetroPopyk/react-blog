@@ -16,7 +16,7 @@ export class ArticlesList extends Component {
     const { articles, profile } = this.props;
     return (
         <div className="articles-list section">
-          {profile.isAdmin ? <div className="input-field">
+          {(profile.isAdmin && articles && articles.length > 1) ? <div className="input-field">
             <input placeholder="Search articles..."
                    type="text"
                    width={'300'}
@@ -30,6 +30,7 @@ export class ArticlesList extends Component {
                 </Link>
             );
           })}
+          {(!articles || articles.length < 1) ? <p className={'center'}>Articles not found</p> : null}
         </div>
     );
   }
