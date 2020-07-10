@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import SignedInPage from './main/auth/SignInPage';
 import SignUpPage from './main/auth/SignUpPage';
 import AddArticle from './main/blog/AddArticle';
+import EditArticle from './main/blog/EditArticle';
 import Dashboard from './main/dashboard/Dashboard';
 import Navbar from './main/shared/Navbar';
 import ArticleDetails from './main/blog/ArticleDetails';
@@ -29,6 +30,7 @@ const App = (props) => {
             <UnauthorizedRoute path={'/sign-in'} component={SignedInPage}/>
             <UnauthorizedRoute path={'/sign-up'} component={SignUpPage}/>
             <AdminRoute path={'/add-article'} component={AddArticle}/>
+            <AdminRoute path={'/edit-article/:id'} component={EditArticle}/>
           </Switch>
         </div>
       </BrowserRouter>

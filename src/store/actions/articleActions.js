@@ -10,6 +10,16 @@ export const addArticle = (article) => {
   };
 };
 
+export const editArticle = (article) => {
+  return (dispatch, getState) => {
+    db.collection('articles').doc(article.id).update({...article}).then(() => {
+      dispatch({type: 'EDIT_ARTICLE_SUCCESS', article});
+    }).catch(error => {
+      dispatch({type: 'EDIT_ARTICLE_ERROR', error});
+    });
+  };
+};
+
 export const deleteArticle = (id) => {
   return (dispatch, getState) => {
     db.collection('articles').doc(id).delete().then(() => {
