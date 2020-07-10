@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import SignedInPage from './main/auth/SignInPage';
 import SignUpPage from './main/auth/SignUpPage';
 import AddArticle from './main/blog/AddArticle';
@@ -11,6 +13,16 @@ import { connect } from 'react-redux';
 
 const App = (props) => {
   const { auth, profile } = props;
+
+  toast.configure({
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                  });
 
   const AdminRoute = (props) => {
     return (auth.uid && profile.isAdmin)  ? (<Route path={props.path} component={props.component}/>) : <Redirect to={'/'}/>;

@@ -5,13 +5,18 @@ import { signOut } from '../../store/actions/authActions';
 
 const SignedInLinks = (props) => {
   const { auth, profile } = props;
-  return (
-      <ul className="right">
-        { (auth.uid && profile.isAdmin) ? <li><NavLink to={'/add-article'}>New Article</NavLink></li> : null }
-        <li><a onClick={props.signOut}>Log Out</a></li>
-        <li><a className="btn btn-floating pink" style={{ pointerEvents: 'none' }}>{`${profile.firstName[0]}${profile.lastName[0]}`}</a></li>
-      </ul>
-  );
+  if (profile.hasOwnProperty('isAdmin')) {
+    return (
+        <ul className="right">
+          {(auth.uid && profile.isAdmin) ? <li><NavLink to={'/add-article'}>New Article</NavLink></li> : null}
+          <li><a onClick={props.signOut}>Log Out</a></li>
+          <li><a className="btn btn-floating pink" style={{pointerEvents: 'none'}}>{profile.isAdmin ? 'A' : `${profile.firstName[0]}${profile.lastName[0]}`}</a>
+          </li>
+        </ul>
+    );
+  } else {
+    return  null;
+  }
 };
 
 const mapStateToProps = (state) => {
