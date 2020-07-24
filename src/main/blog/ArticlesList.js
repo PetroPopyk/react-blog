@@ -23,7 +23,7 @@ export class ArticlesList extends Component {
                    className="validate"
                    onChange={this.searchArticles}/>
           </div>: null}
-          {articles && articles.filter(article => article.title.toLowerCase().includes(this.state.search) || article.description.toLowerCase().includes(this.state.search)).map(article => {
+          {articles && articles.filter(article => article.title.toLowerCase().includes(this.state.search.toLowerCase()) || article.description.toLowerCase().includes(this.state.search.toLowerCase())).map(article => {
             return (
                 <Link to={{pathname: `/article/${article.id}`, state: {article: article}}} key={article.id}>
                   <Summary article={article}/>

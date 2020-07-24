@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import { toast } from 'react-toastify';
 
 export const signIn = (credentials) => {
   return (dispatch, getState) => {
@@ -23,18 +22,16 @@ export const signUp = (user) => {
         blocked: false
     }).then(() => {
       dispatch({type: 'SIGN_UP_SUCCESS'});
-      toast('Successfully signed-up!');
     }).catch(error => {
       dispatch({type: 'SIGN_UP_ERROR', error});
     });
   }
 };
 
-export const signOut = () => {
+export const signOut = (isBlocked) => {
   return (dispatch, getState) => {
     firebase.auth().signOut().then(() => {
-      dispatch({type: 'SIGN_OUT_SUCCESS'});
-      toast('Successfully signed-out!');
+      isBlocked ? dispatch({type: 'BLOCKED_SIGN_OUT'}) : dispatch({type: 'DEFAULT_SIGN_OUT'});
     });
   };
 };

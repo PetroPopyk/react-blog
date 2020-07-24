@@ -12,7 +12,7 @@ const Summary = ({article, deletePost, profile}) => {
         <div className="card-content" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
           <div>
             <span className="card-title">{article.title}</span>
-            <p>{article.description}</p>
+            <p style={{whiteSpace: 'nowrap', maxWidth: '500px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{article.description}</p>
           </div>
           { profile.isAdmin ? <button className="btn pink right" onClick={handleDelete}>Delete</button> : null }
         </div>

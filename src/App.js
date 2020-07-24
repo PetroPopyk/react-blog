@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Users from './main/admin/Users';
 import SignedInPage from './main/auth/SignInPage';
 import SignUpPage from './main/auth/SignUpPage';
 import AddArticle from './main/blog/AddArticle';
@@ -43,6 +44,7 @@ const App = (props) => {
             <UnauthorizedRoute path={'/sign-up'} component={SignUpPage}/>
             <AdminRoute path={'/add-article'} component={AddArticle}/>
             <AdminRoute path={'/edit-article/:id'} component={EditArticle}/>
+            <AdminRoute path={'/users'} component={Users}/>
           </Switch>
         </div>
       </BrowserRouter>

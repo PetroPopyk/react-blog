@@ -22,7 +22,7 @@ const ArticleDetails = (props) => {
                 <p>{article.description}</p>
               </div>
               { props.profile.isAdmin ? <Link to={{pathname: `/edit-article/${article.id}`, state: {article: article}}} key={article.id}>
-                <button className="btn pink right">Edit</button>
+                <button className="btn pink right" style={{marginLeft: '60px'}}>Edit</button>
               </Link> : null }
             </div>
             <div className="card-action grey-text">
