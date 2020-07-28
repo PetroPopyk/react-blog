@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import { db } from '../../configs/firebaseConfig';
 import { changeUserStatus } from '../../store/actions/adminActions';
 
 class Users extends Component {
   state = {
-    search: ''
+    search: '',
+    users: '',
+    last: '',
+    lastPage: false
   };
 
   searchUsers = (e) => {
@@ -14,12 +17,55 @@ class Users extends Component {
   };
 
   changeUserStatus = (user) => {
-    console.log(user);
     this.props.changeUserStatus(user);
   };
 
+  componentDidMount(){
+    this.getUsers();
+  };
+
+  componentWillReceiveProps(nextProps, nextContent){
+    const users = [...this.state.users];
+    const { updatedUser } = nextProps;
+    users.find(item => item.id === updatedUser.id).blocked = updatedUser.blocked;
+    this.setState({users: users});
+  }
+
+  getUsers() {
+    let set = this;
+    const first = db.collection("users").orderBy('firstName').limit(3);
+    first.get().then((documentSnapshots) =>  {
+      const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+      const list = [];
+      documentSnapshots.forEach((doc) => {
+        list.push({...doc.data(), id: doc.id});
+      });
+      if (list.length < 3) {
+        this.setState({lastPage: true});
+      }
+      set.setState({users: list, last: lastVisible});
+    });
+  };
+
+  getMoreUsers = () => {
+    const last = this.state.last;
+    const next = db.collection("users").orderBy('firstName').startAfter(last).limit(3);
+    next.get().then((documentSnapshots) => {
+      const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+      const list = [];
+      documentSnapshots.forEach((doc) => {
+        list.push({...doc.data(), id: doc.id});
+      });
+      if (list.length < 3) {
+        this.setState({lastPage: true});
+      }
+      const updatedList = this.state.users.concat(list);
+      this.setState({ users: updatedList, last: lastVisible });
+    });
+  };
+
   render() {
-    const {users} = this.props;
+    const {users} = this.state;
     if (users && users.length > 0) {
       return (
           <div className="dashboard container">
@@ -31,7 +77,7 @@ class Users extends Component {
                      onChange={this.searchUsers}/>
             </div>
 
-            <table className='highlight responsive-table'>
+            <table className='highlight responsive-table' style={{marginBottom: '30px'}}>
               <thead>
               <tr>
               <th>First Name</th>
@@ -58,6 +104,7 @@ class Users extends Component {
               )}
               </tbody>
             </table>
+            {!this.state.lastPage ? <button className="btn pink" style={{marginTop: '30px', marginBottom: '30px'}} onClick={this.getMoreUsers}>More users...</button> : null}
           </div>
       );
     } else {
@@ -68,7 +115,7 @@ class Users extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.firestore.ordered.users
+    updatedUser: state.adminReducer.updatedUser
   };
 };
 
@@ -80,4 +127,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{collection: 'users'}]))(Users);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Users);

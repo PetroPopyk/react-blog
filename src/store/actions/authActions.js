@@ -16,7 +16,7 @@ export const signIn = (credentials) => {
 export const signUp = (user) => {
   return (dispatch, getState) => {
     firebase.createUser({ ...user }, {
-      firstName: `${user.firstName}`,
+        firstName: `${user.firstName}`,
         lastName: `${user.lastName}`,
         isAdmin: false,
         blocked: false

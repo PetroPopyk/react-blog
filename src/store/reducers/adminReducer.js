@@ -8,7 +8,10 @@ const adminReducer = (state = initState, action) => {
       return state;
     case 'CHANGE_USER_STATUS_SUCCESS':
       !action.user.blocked ? toast('User successfully blocked!') : toast('User successfully activated!');
-      return state;
+      return {
+        ...state,
+        updatedUser: {...action.user, blocked: !action.user.blocked }
+      };
     case 'CHANGE_USER_STATUS_ERROR':
       toast('Something went wrong!');
       return state;
