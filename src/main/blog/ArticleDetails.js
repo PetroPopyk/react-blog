@@ -3,6 +3,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 const ArticleDetails = (props) => {
   if (!props.location.state && !props.article) {
@@ -26,7 +27,7 @@ const ArticleDetails = (props) => {
               </Link> : null }
             </div>
             <div className="card-action grey-text">
-              <div>Date</div>
+              <div>{moment(article.createdAt.toDate()).calendar()}</div>
             </div>
           </div>
         </div>

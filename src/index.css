@@ -27,6 +27,11 @@ p, span {
   color: rgba(0,0,0,0.87)!important;
 }
 
+[type="checkbox"]:checked+span:not(.lever):before {
+  border-right: 2px solid #E91E63;
+  border-bottom: 2px solid #E91E63;
+}
+
 .Toastify__toast--default {
   background: #ee6d73!important;
   color: #ffffff!important;

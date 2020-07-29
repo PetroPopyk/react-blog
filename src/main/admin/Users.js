@@ -7,6 +7,7 @@ import { changeUserStatus } from '../../store/actions/adminActions';
 class Users extends Component {
   state = {
     search: '',
+    filter: false,
     users: '',
     last: '',
     lastPage: false
@@ -14,6 +15,10 @@ class Users extends Component {
 
   searchUsers = (e) => {
     this.setState({search: e.target.value});
+  };
+
+  filterUsers = () => {
+    this.setState({filter: !this.state.filter});
   };
 
   changeUserStatus = (user) => {
@@ -75,6 +80,13 @@ class Users extends Component {
                      width={'300'}
                      className="validate"
                      onChange={this.searchUsers}/>
+
+              <p>
+                <label>
+                  <input type="checkbox" onChange={this.filterUsers}/>
+                  <span>Active only</span>
+                </label>
+              </p>
             </div>
 
             <table className='highlight responsive-table' style={{marginBottom: '30px'}}>
@@ -89,7 +101,7 @@ class Users extends Component {
               </thead>
 
               <tbody>
-              {users.filter(user => user.firstName.toLowerCase().includes(this.state.search.toLowerCase()) || user.lastName.toLowerCase().includes(this.state.search.toLowerCase())).map(user => {
+              {users.filter(user => this.state.filter ? !user.blocked : user).filter(user => user.firstName.toLowerCase().includes(this.state.search.toLowerCase()) || user.lastName.toLowerCase().includes(this.state.search.toLowerCase())).map(user => {
                 return (
                   <tr key={user.uid}>
                   <td>{user.firstName}</td>
