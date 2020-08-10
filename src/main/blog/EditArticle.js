@@ -28,7 +28,7 @@ export class EditArticle extends Component {
             </div>
             <div className="input-field">
               <label htmlFor="description" className={'active'}>Description</label>
-              <textarea className="materialize-textarea" id="description" onChange={this.handleChange} value={article.description}/>
+              <textarea style={{  minHeight: '16rem' }} className="materialize-textarea" id="description" onChange={this.handleChange} value={article.description}/>
             </div>
             <div className="input-field">
               <button className="btn pink">Edit</button>

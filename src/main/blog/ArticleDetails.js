@@ -27,7 +27,7 @@ const ArticleDetails = (props) => {
               </Link> : null }
             </div>
             <div className="card-action grey-text">
-              <div>{moment(article.createdAt.toDate()).calendar()}</div>
+              <div>Posted {moment(article.createdAt.toDate()).calendar()}</div>
             </div>
           </div>
         </div>
