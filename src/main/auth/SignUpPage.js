@@ -2,45 +2,35 @@ import React, { Component } from 'react';
 import styles from './Auth.module.css';
 import { connect } from 'react-redux';
 import { signUp } from '../../store/actions/authActions';
+import { Field, reduxForm } from 'redux-form';
 
 export class SignUpPage extends Component {
-  state = {
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: ''
-  };
-
-  handleChange = (e) => {
-    this.setState({[e.target.id]: e.target.value});
-  };
-
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.signUp(this.state);
+    this.props.signUp(this.props.formState.signUpForm.values);
   };
 
   render() {
     const { authError } = this.props;
     return (
         <div className={`container ${styles.form}`}>
-          <form onSubmit={this.handleSubmit} className="white">
+          <form name={'signUpForm'} onSubmit={this.handleSubmit} className="white">
             <h5 className="grey-text">Sign Up</h5>
             <div className="input-field">
               <label htmlFor="email">Email</label>
-              <input type="email" id="email" onChange={this.handleChange}/>
+              <Field name={'email'} component={'input'} type={'email'} required/>
             </div>
             <div className="input-field">
               <label htmlFor="firstName">First Name</label>
-              <input type="text" id="firstName" onChange={this.handleChange}/>
+              <Field name={'firstName'} component={'input'} type={'text'} required/>
             </div>
             <div className="input-field">
               <label htmlFor="lastName">Last Name</label>
-              <input type="text" id="lastName" onChange={this.handleChange}/>
+              <Field name={'lastName'} component={'input'} type={'text'} required/>
             </div>
             <div className="input-field">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" onChange={this.handleChange}/>
+              <Field name={'password'} component={'input'} type={'password'} required/>
             </div>
             <div className="input-field">
               <button className="btn pink">Sign Up</button>
@@ -56,7 +46,8 @@ export class SignUpPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    authError: state.auth.authError
+    authError: state.auth.authError,
+    formState: state.form
   }
 };
 
@@ -66,4 +57,8 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);
+export default reduxForm(
+    {
+      form: 'signUpForm'
+    }
+)(connect(mapStateToProps, mapDispatchToProps)(SignUpPage));
